@@ -25,7 +25,6 @@ internal class VideoQuad
         _max_pan = max_pan;
         _mono = mono;
         _camera = camera;
-
         CreateQuad();
     }
 
@@ -36,6 +35,7 @@ internal class VideoQuad
         _quad.transform.forward = -_camera.transform.forward;
         _quad.transform.up = Vector3.up;
         _quad_material = new Material(Shader.Find("Unlit/Video"));
+        _quad_material.mainTexture = Resources.Load<Texture2D>("Default");
         _quad.GetComponent<MeshRenderer>().material = _quad_material;
         GameObject.Destroy(_quad.GetComponent<Collider>());
 
