@@ -17,25 +17,30 @@ internal class VideoQuad
     private float _quad_width = 0;
     private float _max_tilt = 0;
     private float _max_pan = 0;
+    private float _max_zoom = 0;
     private float _tilt = 0;
     private float _pan = 0;
-    public VideoQuad(MonoBehaviour mono, Camera camera, float max_tilt, float max_pan)
+    private float _zoom = 0;
+    private float _plane_origin;
+    public VideoQuad(MonoBehaviour mono, Camera camera, float max_tilt, float max_pan, float max_zoom)
     {
-        _max_tilt = max_tilt;
-        _max_pan = max_pan;
         _mono = mono;
         _camera = camera;
+        _max_tilt = max_tilt;
+        _max_pan = max_pan;
+        _max_zoom = max_zoom;
+        _plane_origin = _camera.farClipPlane * 0.25f;
         CreateQuad();
     }
 
     public void CreateQuad()
     {
+        // Setup Quad
         _quad = GameObject.CreatePrimitive(PrimitiveType.Quad);
-        _quad.transform.position = _camera.transform.position + _camera.transform.forward * _camera.farClipPlane * 0.5f;
-        _quad.transform.forward = -_camera.transform.forward;
-        _quad.transform.up = Vector3.up;
-        _quad_material = new Material(Shader.Find("Unlit/Video"));
-        _quad_material.mainTexture = Resources.Load<Texture2D>("Default");
+        _quad_material = new Material(Shader.Find("Unlit/Video"))
+        {
+            mainTexture = Resources.Load<Texture2D>("Default")
+        };
         _quad.GetComponent<MeshRenderer>().material = _quad_material;
         GameObject.Destroy(_quad.GetComponent<Collider>());
 
@@ -54,33 +59,42 @@ internal class VideoQuad
     private IEnumerator WaitForNetworkScan(float scan_wait)
     {
         yield return new WaitForSeconds(scan_wait);
-        _ndi.ndiName = NdiFinder.sourceNames.Where(x => x.Contains("Reprojector")).FirstOrDefault();
+        _ndi.ndiName = NdiFinder.sourceNames.Where(x => x.Contains("Arena")).FirstOrDefault();
         Debug.Log(_ndi.ndiName);
     }
 
-    public void PanTilt(float pan, float tilt)
+    public void PanTiltZoom(float pan, float tilt, float zoom)
     {
-        _pan = Mathf.Clamp(_pan + pan, -_max_pan, _max_pan);
-        _tilt = Mathf.Clamp(_tilt + tilt, -_max_tilt, _max_tilt);
-        Vector3 anchor = _camera.transform.forward * _camera.farClipPlane * 0.5f;
-
-        float max_offset = Mathf.Max(Mathf.Abs(_tilt), Mathf.Abs(_pan));
-        float opposite = Mathf.Sin(max_offset * Mathf.Deg2Rad);
-        float adjacent = Mathf.Cos(max_offset * Mathf.Deg2Rad);
+        _pan = Mathf.Clamp(pan, -_max_pan, _max_pan);
+        _tilt = Mathf.Clamp(tilt, -_max_tilt, _max_tilt);
+        _zoom = Mathf.Clamp(zoom, -_max_zoom * 0.5f, _max_zoom * 2);
+        Vector3 anchor = _camera.transform.forward * _plane_origin;
         float height = _quad_height * 0.5f;
         float width = _quad_width * 0.5f;
 
-        float vertical_offset = Mathf.Sign(_tilt) > 0 ? (height * adjacent - height) : (height - height * adjacent);
-        float horizontal_offset = Mathf.Sign(_pan) < 0 ? (width * adjacent - width) : (width - width * adjacent);
+        // Determine forward offset
+        float tilt_indent = Mathf.Sin(Mathf.Abs(_tilt) * Mathf.Deg2Rad) * height;
+        float pan_indent = Mathf.Sin(Mathf.Abs(_pan) * Mathf.Deg2Rad) * width;
 
-        Vector3 offset = (height * opposite * _camera.transform.forward) + (vertical_offset * _camera.transform.up) + (horizontal_offset * _camera.transform.right);
+        float adjacent_tilt = Mathf.Cos(Mathf.Abs(_tilt) * Mathf.Deg2Rad);
+        float adjacent_pan = Mathf.Cos(Mathf.Abs(_pan) * Mathf.Deg2Rad);
+
+        float tilt_offset = Mathf.Sign(_tilt) > 0 ? (height * adjacent_tilt - height) : (height - height * adjacent_tilt);
+        float pan_offset = Mathf.Sign(_pan) > 0 ? (width - width * adjacent_pan) : (width * adjacent_pan - width);
+
+        Vector3 offset = ((Mathf.Max(tilt_indent, pan_indent) + _zoom) * _camera.transform.forward) + (tilt_offset * _camera.transform.up) + (pan_offset * _camera.transform.right);
         _quad.transform.SetPositionAndRotation(anchor + offset, Quaternion.AngleAxis(_tilt, Vector3.right) * Quaternion.AngleAxis(_pan, Vector3.up));
     }
 
     private void FitQuadToScreen()
     {
-        float plane_dist = _camera.farClipPlane * 0.5f;
+        _quad.transform.position = _camera.transform.position + _camera.transform.forward * _plane_origin;
+        _quad.transform.forward = -_camera.transform.forward;
+        _quad.transform.up = Vector3.up;
+
+        float plane_dist = _plane_origin;
         Vector3 offset = _camera.transform.forward * plane_dist;
+
         _vertices[0] = _camera.ScreenToWorldPoint(new Vector3(0, 0, plane_dist)) - offset;
         _vertices[1] = _camera.ScreenToWorldPoint(new Vector3(Screen.width, 0, plane_dist)) - offset;
         _vertices[2] = _camera.ScreenToWorldPoint(new Vector3(0, Screen.height, plane_dist)) - offset;

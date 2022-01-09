@@ -25,6 +25,14 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Zoom"",
+                    ""type"": ""Value"",
+                    ""id"": ""5a02e413-2a11-4e35-b92b-749e00de0834"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -82,6 +90,39 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""action"": ""KeystoneChange"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Zoom"",
+                    ""id"": ""b089d567-4f9a-4758-bb7f-9352ac4b4140"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""58349c40-b3bb-4636-9557-0669af99dc3e"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""7c053fe9-52f2-4948-807c-cd15333be70a"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -103,6 +144,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         // Movement
         m_Movement = asset.FindActionMap("Movement", throwIfNotFound: true);
         m_Movement_KeystoneChange = m_Movement.FindAction("KeystoneChange", throwIfNotFound: true);
+        m_Movement_Zoom = m_Movement.FindAction("Zoom", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -153,11 +195,13 @@ public class @InputActions : IInputActionCollection, IDisposable
     private readonly InputActionMap m_Movement;
     private IMovementActions m_MovementActionsCallbackInterface;
     private readonly InputAction m_Movement_KeystoneChange;
+    private readonly InputAction m_Movement_Zoom;
     public struct MovementActions
     {
         private @InputActions m_Wrapper;
         public MovementActions(@InputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @KeystoneChange => m_Wrapper.m_Movement_KeystoneChange;
+        public InputAction @Zoom => m_Wrapper.m_Movement_Zoom;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -170,6 +214,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @KeystoneChange.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnKeystoneChange;
                 @KeystoneChange.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnKeystoneChange;
                 @KeystoneChange.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnKeystoneChange;
+                @Zoom.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnZoom;
+                @Zoom.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnZoom;
+                @Zoom.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnZoom;
             }
             m_Wrapper.m_MovementActionsCallbackInterface = instance;
             if (instance != null)
@@ -177,6 +224,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @KeystoneChange.started += instance.OnKeystoneChange;
                 @KeystoneChange.performed += instance.OnKeystoneChange;
                 @KeystoneChange.canceled += instance.OnKeystoneChange;
+                @Zoom.started += instance.OnZoom;
+                @Zoom.performed += instance.OnZoom;
+                @Zoom.canceled += instance.OnZoom;
             }
         }
     }
@@ -193,5 +243,6 @@ public class @InputActions : IInputActionCollection, IDisposable
     public interface IMovementActions
     {
         void OnKeystoneChange(InputAction.CallbackContext context);
+        void OnZoom(InputAction.CallbackContext context);
     }
 }
