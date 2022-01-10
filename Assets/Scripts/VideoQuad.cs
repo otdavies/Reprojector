@@ -22,6 +22,7 @@ internal class VideoQuad
     private float _pan = 0;
     private float _zoom = 0;
     private float _plane_origin;
+
     public VideoQuad(MonoBehaviour mono, Camera camera, float max_tilt, float max_pan, float max_zoom)
     {
         _mono = mono;
@@ -48,19 +49,30 @@ internal class VideoQuad
         _mesh_filter = _quad.GetComponent<MeshFilter>();
         _mesh_filter.mesh.MarkDynamic();
         FitQuadToScreen();
+    }
 
+    public void SetupNDI(NdiResources _resources)
+    {
         // Setup NDI
         _ndi = _quad.AddComponent<NdiReceiver>();
+        _ndi.SetResources(_resources);
         _ndi.targetRenderer = _quad.GetComponent<MeshRenderer>();
+        _ndi.targetTexture = new RenderTexture(1920, 1080, 24, RenderTextureFormat.ARGB32);
         _ndi.targetMaterialProperty = "_MainTex";
-        _mono.StartCoroutine(WaitForNetworkScan(0.5f));
+        _mono.StartCoroutine(WaitForNetworkScan(2.0f));
     }
 
     private IEnumerator WaitForNetworkScan(float scan_wait)
     {
         yield return new WaitForSeconds(scan_wait);
         _ndi.ndiName = NdiFinder.sourceNames.Where(x => x.Contains("Arena")).FirstOrDefault();
-        Debug.Log(_ndi.ndiName);
+        Debug.LogError(_ndi.ndiName);
+    }
+
+    public void SetFOV(float fov)
+    {
+        _camera.fieldOfView = fov;
+        FitQuadToScreen();
     }
 
     public void PanTiltZoom(float pan, float tilt, float zoom)
@@ -82,8 +94,8 @@ internal class VideoQuad
         float tilt_offset = Mathf.Sign(_tilt) > 0 ? (height * adjacent_tilt - height) : (height - height * adjacent_tilt);
         float pan_offset = Mathf.Sign(_pan) > 0 ? (width - width * adjacent_pan) : (width * adjacent_pan - width);
 
-        Vector3 offset = ((Mathf.Max(tilt_indent, pan_indent) + _zoom) * _camera.transform.forward) + (tilt_offset * _camera.transform.up) + (pan_offset * _camera.transform.right);
-        _quad.transform.SetPositionAndRotation(anchor + offset, Quaternion.AngleAxis(_tilt, Vector3.right) * Quaternion.AngleAxis(_pan, Vector3.up));
+        Vector3 offset = ((tilt_indent + pan_indent + _zoom) * _camera.transform.forward) + (tilt_offset * _camera.transform.up) + (pan_offset * _camera.transform.right);
+        _quad.transform.SetPositionAndRotation(anchor + offset, Quaternion.Euler(_tilt, _pan, 0));
     }
 
     private void FitQuadToScreen()

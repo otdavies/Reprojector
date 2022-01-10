@@ -150,9 +150,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 671496510}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 301daf9b91cc1214bae1f9801fa3994b, type: 3}
+  m_Script: {fileID: 11500000, guid: f23c529b661b21b4c912664900f4212d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _resources: {fileID: 11400000, guid: 69304b86950074db7ba8caba75214004, type: 2}
+  _maxTilt: 60
+  _maxPan: 60
+  _maxZoom: 3
 --- !u!4 &671496512
 Transform:
   m_ObjectHideFlags: 0
@@ -252,7 +256,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 10
-  field of view: 60
+  field of view: 30
   orthographic: 0
   orthographic size: 1
   m_Depth: -1
