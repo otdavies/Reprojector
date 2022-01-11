@@ -49,6 +49,14 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""ToggleGrid"",
+                    ""type"": ""Button"",
+                    ""id"": ""300ab3c5-8226-4be6-a5a0-97d3a01052ba"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -271,6 +279,28 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""action"": ""CorrectDepthToggle"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cf139502-ffb4-44ca-9d3e-bb5f84c2e5b0"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleGrid"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b31e56af-2f93-4eea-9813-76006044a6a8"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardControls"",
+                    ""action"": ""ToggleGrid"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -300,6 +330,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         m_Movement_Zoom = m_Movement.FindAction("Zoom", throwIfNotFound: true);
         m_Movement_Reset = m_Movement.FindAction("Reset", throwIfNotFound: true);
         m_Movement_CorrectDepthToggle = m_Movement.FindAction("CorrectDepthToggle", throwIfNotFound: true);
+        m_Movement_ToggleGrid = m_Movement.FindAction("ToggleGrid", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -353,6 +384,7 @@ public class @InputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Movement_Zoom;
     private readonly InputAction m_Movement_Reset;
     private readonly InputAction m_Movement_CorrectDepthToggle;
+    private readonly InputAction m_Movement_ToggleGrid;
     public struct MovementActions
     {
         private @InputActions m_Wrapper;
@@ -361,6 +393,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         public InputAction @Zoom => m_Wrapper.m_Movement_Zoom;
         public InputAction @Reset => m_Wrapper.m_Movement_Reset;
         public InputAction @CorrectDepthToggle => m_Wrapper.m_Movement_CorrectDepthToggle;
+        public InputAction @ToggleGrid => m_Wrapper.m_Movement_ToggleGrid;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -382,6 +415,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @CorrectDepthToggle.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnCorrectDepthToggle;
                 @CorrectDepthToggle.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnCorrectDepthToggle;
                 @CorrectDepthToggle.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnCorrectDepthToggle;
+                @ToggleGrid.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnToggleGrid;
+                @ToggleGrid.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnToggleGrid;
+                @ToggleGrid.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnToggleGrid;
             }
             m_Wrapper.m_MovementActionsCallbackInterface = instance;
             if (instance != null)
@@ -398,6 +434,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @CorrectDepthToggle.started += instance.OnCorrectDepthToggle;
                 @CorrectDepthToggle.performed += instance.OnCorrectDepthToggle;
                 @CorrectDepthToggle.canceled += instance.OnCorrectDepthToggle;
+                @ToggleGrid.started += instance.OnToggleGrid;
+                @ToggleGrid.performed += instance.OnToggleGrid;
+                @ToggleGrid.canceled += instance.OnToggleGrid;
             }
         }
     }
@@ -417,5 +456,6 @@ public class @InputActions : IInputActionCollection, IDisposable
         void OnZoom(InputAction.CallbackContext context);
         void OnReset(InputAction.CallbackContext context);
         void OnCorrectDepthToggle(InputAction.CallbackContext context);
+        void OnToggleGrid(InputAction.CallbackContext context);
     }
 }

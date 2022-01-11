@@ -36,6 +36,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "ToggleGrid",
+                    "type": "Button",
+                    "id": "300ab3c5-8226-4be6-a5a0-97d3a01052ba",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -256,6 +264,28 @@
                     "processors": "",
                     "groups": "KeyboardControls",
                     "action": "CorrectDepthToggle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cf139502-ffb4-44ca-9d3e-bb5f84c2e5b0",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleGrid",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b31e56af-2f93-4eea-9813-76006044a6a8",
+                    "path": "<Gamepad>/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardControls",
+                    "action": "ToggleGrid",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

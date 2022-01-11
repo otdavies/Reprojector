@@ -16,6 +16,7 @@ public class ControllerMidiOut : MonoBehaviour
     private void Update()
     {
         // Manual mapping due to time limitations
+        if (Gamepad.current == null) return;
 
         // A
         if (Gamepad.current.aButton.wasPressedThisFrame)

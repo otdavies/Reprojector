@@ -49,6 +49,11 @@ public class NDIVideoProjector : MonoBehaviour
         _corrective_depth_enabled = !_corrective_depth_enabled;
     }
 
+    private void OnToggleGrid(InputValue input)
+    {
+        _renderQuad.ToggleGridOverlay();
+    }
+
     private void OnReset()
     {
         _axis = Vector2.zero;

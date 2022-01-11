@@ -98,6 +98,12 @@ internal class VideoQuad
         _quad.transform.SetPositionAndRotation(anchor + offset, Quaternion.Euler(_tilt, _pan, 0));
     }
 
+    public void ToggleGridOverlay()
+    {
+        int enabled = _quad_material.GetInt("_GridEnabled");
+        _quad_material.SetInt("_GridEnabled", 1 - enabled);
+    }
+
     private void FitQuadToScreen()
     {
         _quad.transform.position = _camera.transform.position + _camera.transform.forward * _plane_origin;

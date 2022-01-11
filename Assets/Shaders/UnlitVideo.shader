@@ -8,6 +8,9 @@
 Shader "Unlit/Video" {
     Properties {
         _MainTex ("Base (RGB)", 2D) = "black" {}
+        _GridEnabled("GridEnabled", Int) = 0
+        _GridWidth("GridWidth", Float) = 2
+        _GridStep("GridStep", Float) = 0.05
     }
 
     SubShader {
@@ -36,6 +39,9 @@ Shader "Unlit/Video" {
 
                 sampler2D _MainTex;
                 float4 _MainTex_ST;
+                int _GridEnabled;
+                float _GridWidth;
+                float _GridStep;
 
                 v2f vert (appdata_t v)
                 {
@@ -49,9 +55,20 @@ Shader "Unlit/Video" {
 
                 fixed4 frag (v2f i) : SV_Target
                 {
-                    fixed4 col = tex2D(_MainTex, i.texcoord);
+                    float2 uv = i.texcoord;
+                    fixed4 col = tex2D(_MainTex, uv);
+                    float grid = 0;
+
+                    if(_GridEnabled == 1) {
+                        float2 pos = uv / _GridStep;
+                        float2 f  = abs(frac(pos)-.5);
+                        float2 df = fwidth(pos) * _GridWidth;
+                        float2 g = smoothstep(-df ,df , f);
+                        grid = 1.0 - saturate(g.x * g.y);
+                    }
+
                     UNITY_OPAQUE_ALPHA(col.a);
-                    return col;
+                    return lerp(col.rgba, float4(0.25,0.25,0.25,1), grid);
                 }
             ENDCG
         }
