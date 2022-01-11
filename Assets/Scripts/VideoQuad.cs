@@ -74,7 +74,7 @@ internal class VideoQuad
     {
         _zoom = Mathf.Clamp(zoom, 0, _max_zoom * 2);
 
-        tilt *= 0.5f;
+        tilt *= 0.5f * 0.5625f;
         pan *= 0.5f;
         float top_tilt = Mathf.Max(tilt, 0);
         float bot_tilt = -Mathf.Min(tilt, 0);
@@ -91,10 +91,10 @@ internal class VideoQuad
         Vector3 c2_pan = Vector3.Lerp(_origin_vertices[2], _origin_vertices[0], lft_pan);
         Vector3 c3_pan = Vector3.Lerp(_origin_vertices[3], _origin_vertices[1], rgt_pan);
 
-        _vertices[0] = (c0_tilt + c0_pan) * 0.5f;
-        _vertices[1] = (c1_tilt + c1_pan) * 0.5f;
-        _vertices[2] = (c2_tilt + c2_pan) * 0.5f;
-        _vertices[3] = (c3_tilt + c3_pan) * 0.5f;
+        _vertices[0] = Vector3.Lerp(c0_tilt, c0_pan, 0.5f);
+        _vertices[1] = Vector3.Lerp(c1_tilt, c1_pan, 0.5f);
+        _vertices[2] = Vector3.Lerp(c2_tilt, c2_pan, 0.5f);
+        _vertices[3] = Vector3.Lerp(c3_tilt, c3_pan, 0.5f);
 
         _deformQuad.UpdateQuad(_vertices[0], _vertices[1], _vertices[2], _vertices[3]);
     }
