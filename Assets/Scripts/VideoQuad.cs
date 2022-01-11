@@ -79,7 +79,7 @@ internal class VideoQuad
     {
         _pan = Mathf.Clamp(pan, -_max_pan, _max_pan);
         _tilt = Mathf.Clamp(tilt, -_max_tilt, _max_tilt);
-        _zoom = Mathf.Clamp(zoom, -_max_zoom * 0.5f, _max_zoom * 2);
+        _zoom = Mathf.Clamp(zoom, 0, _max_zoom * 2);
         Vector3 anchor = _camera.transform.forward * _plane_origin;
         float height = _quad_height * 0.5f;
         float width = _quad_width * 0.5f;
