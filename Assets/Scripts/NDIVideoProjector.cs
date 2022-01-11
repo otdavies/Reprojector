@@ -67,11 +67,11 @@ public class NDIVideoProjector : MonoBehaviour
     {
         _axis_lerped = Vector2.Lerp(_axis_lerped, _axis, Time.deltaTime * 3);
         _zoom_lerped = Mathf.Lerp(_zoom_lerped, _zoom, Time.deltaTime * 3);
-        _zoom_accumulated = Mathf.Clamp(_zoom_accumulated + _zoom_lerped * Time.deltaTime * _sensitivity, 0, _maxZoom);
+        _zoom_accumulated = Mathf.Clamp(_zoom_accumulated + _zoom_lerped * Time.deltaTime * _sensitivity, -_maxZoom * 0.25f, _maxZoom);
         _axis_accumulated = new Vector3(Mathf.Clamp(_axis_accumulated.x + _axis_lerped.x * Time.deltaTime * _sensitivity, -1, 1),
         Mathf.Clamp(_axis_accumulated.y + _axis_lerped.y * Time.deltaTime * _sensitivity, -1, 1),
         _zoom_accumulated);
-        _renderQuad.PanTiltZoom(_axis_accumulated.x * _maxTilt, _axis_accumulated.y * _maxPan, _axis_accumulated.z * _maxZoom, _corrective_depth_enabled);
+        _renderQuad.PanTiltZoom(_axis_accumulated.x * _maxTilt, _axis_accumulated.y * _maxPan, _axis_accumulated.z, _corrective_depth_enabled);
 
     }
 }

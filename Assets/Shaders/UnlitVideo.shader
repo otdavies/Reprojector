@@ -68,7 +68,7 @@ Shader "Unlit/Video" {
                     }
 
                     UNITY_OPAQUE_ALPHA(col.a);
-                    return lerp(col.rgba, float4(0.5,0.5,0.5,1), grid);
+                    return lerp(col.rgba, float4(1,1,1,1), grid);
                 }
             ENDCG
         }
