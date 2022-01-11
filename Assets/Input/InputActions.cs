@@ -33,6 +33,14 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Reset"",
+                    ""type"": ""Button"",
+                    ""id"": ""f06e3ca7-d612-452a-ba14-ec59e8c02425"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -211,6 +219,28 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""action"": ""Zoom"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""52a18bf1-c864-41e9-ab88-5bc8b23478b7"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reset"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4d2a645a-caae-464b-bbcb-f17ce727054d"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reset"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -238,6 +268,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         m_Movement = asset.FindActionMap("Movement", throwIfNotFound: true);
         m_Movement_KeystoneChange = m_Movement.FindAction("KeystoneChange", throwIfNotFound: true);
         m_Movement_Zoom = m_Movement.FindAction("Zoom", throwIfNotFound: true);
+        m_Movement_Reset = m_Movement.FindAction("Reset", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -289,12 +320,14 @@ public class @InputActions : IInputActionCollection, IDisposable
     private IMovementActions m_MovementActionsCallbackInterface;
     private readonly InputAction m_Movement_KeystoneChange;
     private readonly InputAction m_Movement_Zoom;
+    private readonly InputAction m_Movement_Reset;
     public struct MovementActions
     {
         private @InputActions m_Wrapper;
         public MovementActions(@InputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @KeystoneChange => m_Wrapper.m_Movement_KeystoneChange;
         public InputAction @Zoom => m_Wrapper.m_Movement_Zoom;
+        public InputAction @Reset => m_Wrapper.m_Movement_Reset;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -310,6 +343,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Zoom.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnZoom;
                 @Zoom.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnZoom;
                 @Zoom.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnZoom;
+                @Reset.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnReset;
+                @Reset.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnReset;
+                @Reset.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnReset;
             }
             m_Wrapper.m_MovementActionsCallbackInterface = instance;
             if (instance != null)
@@ -320,6 +356,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Zoom.started += instance.OnZoom;
                 @Zoom.performed += instance.OnZoom;
                 @Zoom.canceled += instance.OnZoom;
+                @Reset.started += instance.OnReset;
+                @Reset.performed += instance.OnReset;
+                @Reset.canceled += instance.OnReset;
             }
         }
     }
@@ -337,5 +376,6 @@ public class @InputActions : IInputActionCollection, IDisposable
     {
         void OnKeystoneChange(InputAction.CallbackContext context);
         void OnZoom(InputAction.CallbackContext context);
+        void OnReset(InputAction.CallbackContext context);
     }
 }

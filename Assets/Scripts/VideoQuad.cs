@@ -66,7 +66,7 @@ internal class VideoQuad
     {
         yield return new WaitForSeconds(scan_wait);
         _ndi.ndiName = NdiFinder.sourceNames.Where(x => x.Contains("Arena")).FirstOrDefault();
-        Debug.LogError(_ndi.ndiName);
+        Debug.LogWarning(_ndi.ndiName);
     }
 
     public void SetFOV(float fov)

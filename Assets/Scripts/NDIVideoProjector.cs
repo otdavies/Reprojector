@@ -19,12 +19,18 @@ public class NDIVideoProjector : MonoBehaviour
 
     private float _zoom = 0;
     private float _zoom_lerped = 0;
+    private float _zoom_accumulated = 0;
     private void Awake()
     {
         _camera = GameObject.FindObjectOfType<Camera>();
         _renderQuad = new VideoQuad(this, _camera, _maxTilt, _maxPan, _maxZoom);
         Application.targetFrameRate = 60;
         _renderQuad.SetupNDI(_resources);
+    }
+
+    private void Start()
+    {
+        _renderQuad.SetFOV(30);
     }
 
     private void OnKeystoneChange(InputValue input)
@@ -37,14 +43,23 @@ public class NDIVideoProjector : MonoBehaviour
         _zoom = input.Get<float>();
     }
 
+    private void OnReset()
+    {
+        _axis = Vector2.zero;
+        _axis_lerped = Vector2.zero;
+        _axis_accumulated = Vector3.zero;
+        _zoom_lerped = 0;
+        _zoom_accumulated = 0;
+    }
+
     private void Update()
     {
         _axis_lerped = Vector2.Lerp(_axis_lerped, _axis, Time.deltaTime * 3);
         _zoom_lerped = Mathf.Lerp(_zoom_lerped, _zoom, Time.deltaTime * 3);
+        _zoom_accumulated = Mathf.Clamp(_zoom_accumulated + _zoom_lerped * Time.deltaTime * _sensitivity, 0, _maxZoom);
         _axis_accumulated = new Vector3(Mathf.Clamp(_axis_accumulated.x + _axis_lerped.x * Time.deltaTime * _sensitivity, -1, 1),
         Mathf.Clamp(_axis_accumulated.y + _axis_lerped.y * Time.deltaTime * _sensitivity, -1, 1),
-        _zoom_lerped);
-        _renderQuad.SetFOV(60);
+        _zoom_accumulated);
         _renderQuad.PanTiltZoom(_axis_accumulated.x * _maxTilt, _axis_accumulated.y * _maxPan, _axis_accumulated.z * _maxZoom);
 
     }
