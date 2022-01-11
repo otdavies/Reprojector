@@ -7,9 +7,9 @@ using UnityEngine.InputSystem;
 public class NDIVideoProjector : MonoBehaviour
 {
     [SerializeField] NdiResources _resources = null;
-    [SerializeField] [Range(0, 90)] float _maxTilt;
-    [SerializeField] [Range(0, 90)] float _maxPan;
-    [SerializeField] [Range(0, 5)] float _maxZoom;
+    [SerializeField] [Range(0, 1)] float _maxTilt;
+    [SerializeField] [Range(0, 1)] float _maxPan;
+    [SerializeField] [Range(0, 1)] float _maxZoom;
     [SerializeField] [Range(0, 10)] float _sensitivity;
     private Camera _camera;
     private VideoQuad _renderQuad;
@@ -39,13 +39,13 @@ public class NDIVideoProjector : MonoBehaviour
 
     private void Update()
     {
-        _axis_lerped = Vector2.Lerp(_axis_lerped, _axis, Time.deltaTime * 3);
-        _zoom_lerped = Mathf.Lerp(_zoom_lerped, _zoom, Time.deltaTime * 3);
-        _axis_accumulated = new Vector3(Mathf.Clamp(_axis_accumulated.x + _axis_lerped.x * Time.deltaTime * _sensitivity, -1, 1),
-        Mathf.Clamp(_axis_accumulated.y + _axis_lerped.y * Time.deltaTime * _sensitivity, -1, 1),
-        _zoom_lerped);
-        _renderQuad.SetFOV(60);
-        _renderQuad.PanTiltZoom(_axis_accumulated.x * _maxTilt, _axis_accumulated.y * _maxPan, _axis_accumulated.z * _maxZoom);
+        // _axis_lerped = Vector2.Lerp(_axis_lerped, _axis, Time.deltaTime * 3);
+        // _zoom_lerped = Mathf.Lerp(_zoom_lerped, _zoom, Time.deltaTime * 3);
+        // _axis_accumulated = new Vector3(Mathf.Clamp(_axis_accumulated.x + _axis_lerped.x * Time.deltaTime * _sensitivity, -1, 1),
+        // Mathf.Clamp(_axis_accumulated.y + _axis_lerped.y * Time.deltaTime * _sensitivity, -1, 1),
+        // _zoom_lerped);
+        // _renderQuad.PanTiltZoom(_axis_accumulated.x * _maxTilt, _axis_accumulated.y * _maxPan, _axis_accumulated.z * _maxZoom);
+        _renderQuad.PanTiltZoom(_axis.x, _axis.y, _zoom);
 
     }
 }

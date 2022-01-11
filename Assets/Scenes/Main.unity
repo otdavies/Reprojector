@@ -154,9 +154,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _resources: {fileID: 11400000, guid: 69304b86950074db7ba8caba75214004, type: 2}
-  _maxTilt: 60
-  _maxPan: 60
+  _maxTilt: 1
+  _maxPan: 1
   _maxZoom: 3
+  _sensitivity: 0
 --- !u!4 &671496512
 Transform:
   m_ObjectHideFlags: 0
