@@ -65,7 +65,7 @@ internal class VideoQuad
     private IEnumerator WaitForNetworkScan(float scan_wait)
     {
         yield return new WaitForSeconds(scan_wait);
-        _ndi.ndiName = NdiFinder.sourceNames.Where(x => x.Contains("Arena")).FirstOrDefault();
+        _ndi.ndiName = NdiFinder.sourceNames.Where(x => x.Contains("Arena") || x.Contains("Avenue")).FirstOrDefault();
         Debug.LogWarning(_ndi.ndiName);
     }
 
