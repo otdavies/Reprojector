@@ -16,6 +16,7 @@ public class NDIVideoProjector : MonoBehaviour
     private Vector2 _axis = Vector2.zero;
     private Vector2 _axis_lerped = Vector2.zero;
     private Vector3 _axis_accumulated = Vector3.zero;
+    private bool _corrective_depth_enabled = false;
 
     private float _zoom = 0;
     private float _zoom_lerped = 0;
@@ -43,6 +44,11 @@ public class NDIVideoProjector : MonoBehaviour
         _zoom = input.Get<float>();
     }
 
+    private void OnCorrectDepthToggle(InputValue input)
+    {
+        _corrective_depth_enabled = !_corrective_depth_enabled;
+    }
+
     private void OnReset()
     {
         _axis = Vector2.zero;
@@ -60,7 +66,7 @@ public class NDIVideoProjector : MonoBehaviour
         _axis_accumulated = new Vector3(Mathf.Clamp(_axis_accumulated.x + _axis_lerped.x * Time.deltaTime * _sensitivity, -1, 1),
         Mathf.Clamp(_axis_accumulated.y + _axis_lerped.y * Time.deltaTime * _sensitivity, -1, 1),
         _zoom_accumulated);
-        _renderQuad.PanTiltZoom(_axis_accumulated.x * _maxTilt, _axis_accumulated.y * _maxPan, _axis_accumulated.z * _maxZoom);
+        _renderQuad.PanTiltZoom(_axis_accumulated.x * _maxTilt, _axis_accumulated.y * _maxPan, _axis_accumulated.z * _maxZoom, _corrective_depth_enabled);
 
     }
 }

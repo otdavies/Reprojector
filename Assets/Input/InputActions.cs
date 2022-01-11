@@ -41,6 +41,14 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""CorrectDepthToggle"",
+                    ""type"": ""Button"",
+                    ""id"": ""951f9602-2791-4393-b400-923594e30342"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -241,6 +249,28 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""action"": ""Reset"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7b13ae47-1072-424d-a63a-8a77f8911c61"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CorrectDepthToggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ca096a36-d9ba-4383-970e-9c9501ff666c"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardControls"",
+                    ""action"": ""CorrectDepthToggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -269,6 +299,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         m_Movement_KeystoneChange = m_Movement.FindAction("KeystoneChange", throwIfNotFound: true);
         m_Movement_Zoom = m_Movement.FindAction("Zoom", throwIfNotFound: true);
         m_Movement_Reset = m_Movement.FindAction("Reset", throwIfNotFound: true);
+        m_Movement_CorrectDepthToggle = m_Movement.FindAction("CorrectDepthToggle", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -321,6 +352,7 @@ public class @InputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Movement_KeystoneChange;
     private readonly InputAction m_Movement_Zoom;
     private readonly InputAction m_Movement_Reset;
+    private readonly InputAction m_Movement_CorrectDepthToggle;
     public struct MovementActions
     {
         private @InputActions m_Wrapper;
@@ -328,6 +360,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         public InputAction @KeystoneChange => m_Wrapper.m_Movement_KeystoneChange;
         public InputAction @Zoom => m_Wrapper.m_Movement_Zoom;
         public InputAction @Reset => m_Wrapper.m_Movement_Reset;
+        public InputAction @CorrectDepthToggle => m_Wrapper.m_Movement_CorrectDepthToggle;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -346,6 +379,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Reset.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnReset;
                 @Reset.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnReset;
                 @Reset.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnReset;
+                @CorrectDepthToggle.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnCorrectDepthToggle;
+                @CorrectDepthToggle.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnCorrectDepthToggle;
+                @CorrectDepthToggle.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnCorrectDepthToggle;
             }
             m_Wrapper.m_MovementActionsCallbackInterface = instance;
             if (instance != null)
@@ -359,6 +395,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Reset.started += instance.OnReset;
                 @Reset.performed += instance.OnReset;
                 @Reset.canceled += instance.OnReset;
+                @CorrectDepthToggle.started += instance.OnCorrectDepthToggle;
+                @CorrectDepthToggle.performed += instance.OnCorrectDepthToggle;
+                @CorrectDepthToggle.canceled += instance.OnCorrectDepthToggle;
             }
         }
     }
@@ -377,5 +416,6 @@ public class @InputActions : IInputActionCollection, IDisposable
         void OnKeystoneChange(InputAction.CallbackContext context);
         void OnZoom(InputAction.CallbackContext context);
         void OnReset(InputAction.CallbackContext context);
+        void OnCorrectDepthToggle(InputAction.CallbackContext context);
     }
 }

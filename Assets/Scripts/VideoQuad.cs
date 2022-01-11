@@ -75,7 +75,7 @@ internal class VideoQuad
         FitQuadToScreen();
     }
 
-    public void PanTiltZoom(float pan, float tilt, float zoom)
+    public void PanTiltZoom(float pan, float tilt, float zoom, bool corrective_depth)
     {
         _pan = Mathf.Clamp(pan, -_max_pan, _max_pan);
         _tilt = Mathf.Clamp(tilt, -_max_tilt, _max_tilt);
@@ -94,7 +94,7 @@ internal class VideoQuad
         float tilt_offset = Mathf.Sign(_tilt) > 0 ? (height * adjacent_tilt - height) : (height - height * adjacent_tilt);
         float pan_offset = Mathf.Sign(_pan) > 0 ? (width - width * adjacent_pan) : (width * adjacent_pan - width);
 
-        Vector3 offset = ((tilt_indent + pan_indent + _zoom) * _camera.transform.forward);// - ((tilt_offset * _camera.transform.up) + (pan_offset * _camera.transform.right)) * 0.25f;
+        Vector3 offset = corrective_depth ? ((tilt_indent + pan_indent + _zoom) * _camera.transform.forward) : Vector3.zero;// - ((tilt_offset * _camera.transform.up) + (pan_offset * _camera.transform.right)) * 0.25f;
         _quad.transform.SetPositionAndRotation(anchor + offset, Quaternion.Euler(_tilt, _pan, 0));
     }
 
