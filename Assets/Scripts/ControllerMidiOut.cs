@@ -58,45 +58,45 @@ public class ControllerMidiOut : MonoBehaviour
             _sender.SendMidiMessage(false, 0, 43, 100);
         }
 
-        // Left 
-        if (Gamepad.current.dpad.left.wasPressedThisFrame)
-        {
-            _sender.SendMidiMessage(true, 0, 44, 100);
-        }
-        if (Gamepad.current.dpad.left.wasReleasedThisFrame)
-        {
-            _sender.SendMidiMessage(false, 0, 44, 100);
-        }
+        // // Left 
+        // if (Gamepad.current.dpad.left.wasPressedThisFrame)
+        // {
+        //     _sender.SendMidiMessage(true, 0, 44, 100);
+        // }
+        // if (Gamepad.current.dpad.left.wasReleasedThisFrame)
+        // {
+        //     _sender.SendMidiMessage(false, 0, 44, 100);
+        // }
 
-        // Right 
-        if (Gamepad.current.dpad.right.wasPressedThisFrame)
-        {
-            _sender.SendMidiMessage(true, 0, 45, 100);
-        }
-        if (Gamepad.current.dpad.right.wasReleasedThisFrame)
-        {
-            _sender.SendMidiMessage(false, 0, 45, 100);
-        }
+        // // Right 
+        // if (Gamepad.current.dpad.right.wasPressedThisFrame)
+        // {
+        //     _sender.SendMidiMessage(true, 0, 45, 100);
+        // }
+        // if (Gamepad.current.dpad.right.wasReleasedThisFrame)
+        // {
+        //     _sender.SendMidiMessage(false, 0, 45, 100);
+        // }
 
-        // Up 
-        if (Gamepad.current.dpad.up.wasPressedThisFrame)
-        {
-            _sender.SendMidiMessage(true, 0, 46, 100);
-        }
-        if (Gamepad.current.dpad.up.wasReleasedThisFrame)
-        {
-            _sender.SendMidiMessage(false, 0, 46, 100);
-        }
+        // // Up 
+        // if (Gamepad.current.dpad.up.wasPressedThisFrame)
+        // {
+        //     _sender.SendMidiMessage(true, 0, 46, 100);
+        // }
+        // if (Gamepad.current.dpad.up.wasReleasedThisFrame)
+        // {
+        //     _sender.SendMidiMessage(false, 0, 46, 100);
+        // }
 
-        // Down 
-        if (Gamepad.current.dpad.down.wasPressedThisFrame)
-        {
-            _sender.SendMidiMessage(true, 0, 47, 100);
-        }
-        if (Gamepad.current.dpad.down.wasReleasedThisFrame)
-        {
-            _sender.SendMidiMessage(false, 0, 47, 100);
-        }
+        // // Down 
+        // if (Gamepad.current.dpad.down.wasPressedThisFrame)
+        // {
+        //     _sender.SendMidiMessage(true, 0, 47, 100);
+        // }
+        // if (Gamepad.current.dpad.down.wasReleasedThisFrame)
+        // {
+        //     _sender.SendMidiMessage(false, 0, 47, 100);
+        // }
 
         // l bumper
         if (Gamepad.current.leftShoulder.wasPressedThisFrame)

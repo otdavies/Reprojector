@@ -114,7 +114,7 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "down",
+                    "name": "up",
                     "id": "fdd556ab-9b19-41ef-b0a6-b05be081ec88",
                     "path": "<Gamepad>/leftStick/up",
                     "interactions": "",
@@ -125,7 +125,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "up",
+                    "name": "down",
                     "id": "5a9f16f1-8e2c-4467-ae37-bd5a160b8f6b",
                     "path": "<Gamepad>/leftStick/down",
                     "interactions": "",
@@ -150,6 +150,61 @@
                     "name": "right",
                     "id": "5c2fb72f-9062-4196-b902-522ce628d8e8",
                     "path": "<Gamepad>/leftStick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "KeystoneChange",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "XboxDPad",
+                    "id": "e41466ae-c7b8-4e19-b8a2-b64fbb7c9ac8",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "KeystoneChange",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "56085e3b-bbf6-4d7c-a87e-a650bd085b60",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "KeystoneChange",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "a2422baa-5dbe-4bf2-afcf-123ef97896a2",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "KeystoneChange",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "7caaa50c-3421-41be-872f-2d4f26bae04c",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "KeystoneChange",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "f7e01fd0-aa02-424c-ad33-e5dc8f1ae391",
+                    "path": "<Gamepad>/dpad/right",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
