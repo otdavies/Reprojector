@@ -100,21 +100,21 @@ public class ControllerMidiOut : MonoBehaviour
         // l bumper
         if (Gamepad.current.leftShoulder.wasPressedThisFrame)
         {
-            _sender.SendMidiMessage(true, 0, 47, 100);
+            _sender.SendMidiMessage(true, 0, 48, 100);
         }
         if (Gamepad.current.leftShoulder.wasReleasedThisFrame)
         {
-            _sender.SendMidiMessage(false, 0, 47, 100);
+            _sender.SendMidiMessage(false, 0, 48, 100);
         }
 
         // r bumper
         if (Gamepad.current.rightShoulder.wasPressedThisFrame)
         {
-            _sender.SendMidiMessage(true, 0, 47, 100);
+            _sender.SendMidiMessage(true, 0, 49, 100);
         }
         if (Gamepad.current.rightShoulder.wasReleasedThisFrame)
         {
-            _sender.SendMidiMessage(false, 0, 47, 100);
+            _sender.SendMidiMessage(false, 0, 49, 100);
         }
     }
 }
